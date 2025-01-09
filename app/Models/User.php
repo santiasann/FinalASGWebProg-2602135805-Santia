@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'gender',
+        'fields_of_work',
+        'linkedin_username',
+        'mobile_number',
+        'registration_fee_paid',
     ];
 
     /**
@@ -43,6 +48,19 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+        ];
+    }
+    public static function validationRules()
+    {
+        return [
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'gender' => 'required|in:male,female',
+            'fields_of_work' => 'required|array|min:3',
+            'linkedin_username' => 'required|url|regex:/^https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-]+$/',
+            'mobile_number' => 'required|regex:/^\d+$/',
+            'registration_fee_paid' => 'boolean', // Flag to indicate payment status
         ];
     }
 }
