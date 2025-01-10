@@ -20,8 +20,8 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->json('fields_of_work');
             $table->string('linkedin_username')->nullable();
-            $table->string('mobile_number')->nullable();
-            $table->boolean('registration_fee_paid')->default(false);
+            $table->string('mobile_number');
+            $table->integer('registration_fee');
             $table->rememberToken();
             $table->timestamps();
         });

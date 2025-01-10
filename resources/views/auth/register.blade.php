@@ -1,18 +1,18 @@
 @extends('layouts.app')
-@section('title', 'Register')
+@section('title', __('crud.register'))
 @section('content')
 <div class="container" style="padding-top: 80px;padding-bottom: 80px;">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header" style="text-align:center;">{{ __('Register') }}</div>
+                <div class="card-header" style="background-color:#007bff;color:white; text-align:center">{{ __('crud.register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register.submit') }}">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('crud.name') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('crud.email') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('crud.password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('crud.confirm_password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
@@ -62,13 +62,13 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="gender" class="col-md-4 col-form-label text-md-end">{{ __('Gender') }}</label>
+                            <label for="gender" class="col-md-4 col-form-label text-md-end">{{ __('crud.gender') }}</label>
 
                             <div class="col-md-6">
                                 <select id="gender" class="form-control @error('gender') is-invalid @enderror" name="gender" required>
-                                    <option value="">Select Gender</option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
+                                    <option value="">{{ __('crud.select') }}</option>
+                                    <option value="male">{{ __('crud.male') }}</option>
+                                    <option value="female">{{ __('crud.female') }}</option>
                                 </select>
 
                                 @error('gender')
@@ -80,7 +80,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="fields_of_work" class="col-md-4 col-form-label text-md-end">{{ __('Fields of Work Interest (Min. 3)') }}</label>
+                            <label for="fields_of_work" class="col-md-4 col-form-label text-md-end">{{ __('crud.work') }}</label>
 
                             <div class="col-md-6">
                                 <div id="fields_of_work" class="form-check">
@@ -125,7 +125,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="linkedin_username" class="col-md-4 col-form-label text-md-end">{{ __('LinkedIn Username') }}</label>
+                            <label for="linkedin_username" class="col-md-4 col-form-label text-md-end">{{ __('crud.linkedin') }}</label>
 
                             <div class="col-md-6">
                                 <input id="linkedin_username" type="url" class="form-control @error('linkedin_username') is-invalid @enderror" name="linkedin_username" value="{{ old('linkedin_username') }}" required autocomplete="linkedin_username">
@@ -139,7 +139,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="mobile_number" class="col-md-4 col-form-label text-md-end">{{ __('Mobile Number') }}</label>
+                            <label for="mobile_number" class="col-md-4 col-form-label text-md-end">{{ __('crud.mobile_number') }}</label>
 
                             <div class="col-md-6">
                                 <input id="mobile_number" type="text" class="form-control @error('mobile_number') is-invalid @enderror" name="mobile_number" value="{{ old('mobile_number') }}" required autocomplete="mobile_number">
@@ -153,19 +153,17 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label class="col-md-4 col-form-label text-md-end">Registration Fee</label>
-
+                            <label for="registration_fee" class="col-md-4 col-form-label text-md-end">{{ __('crud.fee') }}</label>
+                            <input type="hidden" name="registration_fee" value="{{ $registration_fee }}" class="form-control">
                             <div class="col-md-6">
-                                <p>
-                                    <strong>$1000</strong>
-                                </p>
+                                <p>{{ $registration_fee }}</p>
                             </div>
                         </div>
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
+                                    {{ __('crud.register') }}
                                 </button>
                             </div>
                         </div>

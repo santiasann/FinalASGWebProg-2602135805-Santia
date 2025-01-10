@@ -1,46 +1,42 @@
 @extends('layouts.app')
-@section('title', 'Payment')
+@section('title', __('crud.payment'))
 
 @section('content')
-    <div class="container">
+    <div class="container"style="padding-top: 80px;padding-bottom: 80px;">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Payment') }}</div>
+                    <div class="payment-container">
+                      <h1 style="text-align:center;">{{ __('crud.payment') }}</h1>
 
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
+                      @if (session('message'))
+                          <p class="message">{{ session('message') }}</p>
+                      @endif
+
+                      <form method="POST" action="{{ route('payment.submit') }}" style="text-align:center;">
+                        @csrf
+
+                        @if ($errors->any())
+                            <div class="error">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('payment.process') }}">
-                            @csrf
-
-                            <div class="form-group row">
-                                <label for="amount" class="col-md-4 col-form-label text-md-right">{{ __('Amount') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="amount" type="number" class="form-control @error('amount') is-invalid @enderror" name="amount" value="{{ old('amount') }}" required>
-
-                                    @error('amount')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
+                        <label for="amount">{{__('crud.amount')}}</label>
+                        <input id="amount" type="number" name="amount" placeholder="Enter amount" required>
+                        <div class="row mb-0">
+                            <div class="col-md-6 offset-md-4" style="padding-top: 20px;">
+                                <button type="submit" class="btn btn-primary">
+                                    {{ __('crud.submit') }}
+                                </button>
                             </div>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Pay') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                      </form>
+                  </div>
                 </div>
             </div>
         </div>
