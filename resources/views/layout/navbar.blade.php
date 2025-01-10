@@ -7,23 +7,19 @@
 <nav class="navbar navbar-expand-lg fixed-top bg-white navbar-border py-3">
   <div class="container-fluid px-5">
     
-    <a href="{{route('home')}}"style="color:#007bff;">Job Friends</a>
+    <h1 style="color:#007bff;">Job Friends</h1>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-
             <li class="nav-item mx-3">
-                <a class="nav-link active" aria-current="page" href="{{route('shop')}}">Shop</a>
+                <a class="nav-link active" aria-current="page" href="{{route('home')}}">Home</a>
+            <li class="nav-item mx-3">
+                <a class="nav-link active" aria-current="page" href="{{route('shop')}}">{{ __('crud.shop') }}</a>
             </li>
             <li class="nav-item mx-3">
-                <a class="nav-link active" aria-current="page" href="{{route('chat')}}">Chat</a>
+                <a class="nav-link active" aria-current="page" href="{{ route('chat.index') }}">{{ __('crud.chat') }}</a>
             </li>
         </ul>
-        
-        <form class="d-flex mx-3" role="search" action="{{route('search')}}" method="GET">
-            <input class="form-control me-2" type="search" name="search"placeholder="Search" aria-label="Search" required>
-            <button class="btn btn-primary" type="submit" style="color:white;">Search</button>
-        </form>
         <a class="nav-link" href="{{route('notification')}}">
             <img src="{{ asset('img/notif.png') }}" alt="Profile" class="profile-logo me-2" style="height: 35px;">
         </a>
@@ -42,13 +38,13 @@
             @guest
                 @if (Route::has('login'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="nav-link" href="{{ route('login') }}">{{ __('crud.login') }}</a>
                     </li>
                 @endif
 
                 @if (Route::has('register'))
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        <a class="nav-link" href="{{ route('register') }}">{{ __('crud.register') }}</a>
                     </li>
                 @endif
             @else
@@ -58,6 +54,7 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{{route('user')}}">Profile</a>
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">

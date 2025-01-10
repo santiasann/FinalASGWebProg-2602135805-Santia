@@ -25,7 +25,8 @@ class User extends Authenticatable
         'fields_of_work',
         'linkedin_username',
         'mobile_number',
-        'registration_fee_paid',
+        'registration_fee',
+        'foto',
     ];
 
     /**
@@ -50,17 +51,13 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public static function validationRules()
+    public function reverseWishlist()
     {
-        return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email',
-            'password' => 'required|string|min:8|confirmed',
-            'gender' => 'required|in:male,female',
-            'fields_of_work' => 'required|array|min:3',
-            'linkedin_username' => 'required|url|regex:/^https:\/\/www\.linkedin\.com\/in\/[a-zA-Z0-9-]+$/',
-            'mobile_number' => 'required|regex:/^\d+$/',
-            'registration_fee_paid' => 'boolean', // Flag to indicate payment status
-        ];
+        return $this->hasMany(Whistlist::class, 'wishlist_user_id', 'id');
+    }
+
+    public function chats()
+    {
+        return $this->hasMany(Chat::class); 
     }
 }

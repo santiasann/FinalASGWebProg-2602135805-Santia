@@ -4,38 +4,67 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Payment;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 
 class PaymentController extends Controller
 {
     //
-    public function showPaymentForm(User $user)
+    public function payment(Request $request)
     {
-        $registrationFee = 1000; // Get random registration fee
+        $registration_fee = session('registration_fee', null);
 
-        return view('payment', compact('user', 'registrationFee'));
+        if (is_null($registration_fee)) {
+            return redirect()->route('register')->with('message', 'You must register first.');
+        }
+
+        return view('payment', compact('registration_fee'));
     }
 
-    public function processPayment(Request $request, User $user)
+    public function processPayment(Request $request)
     {
         $request->validate([
-            'amount' => 'required|integer|min:' . rand(100000, 125000),
+            'amount' => 'required|numeric|min:0',
         ]);
-
+    
         $amount = $request->input('amount');
-        $registrationFee = 1000;
-
-        if ($amount < $registrationFee) {
-            return redirect()->back()->with('error', 'You are still underpaid.');
-        } elseif ($amount > $registrationFee) {
-            // Handle overpayment (e.g., add to wallet balance)
-            // ...
-            return redirect()->back()->with('success', 'Payment successful. Excess amount will be added to your wallet balance.');
-        } else {
-            // Update user with payment status
-            $user->registration_fee_paid = true;
-            $user->save();
-
-            return redirect()->route('home')->with('success', 'Payment successful. You are now registered!');
+        $registration_fee = session('registration_fee', 0);
+    
+        if ($amount < $registration_fee) {
+            $underpaid = $registration_fee - $amount;
+            return back()->with('message', "You are still underpaid by $underpaid.");
+        } elseif ($amount > $registration_fee) {
+            $overpaid = $amount - $registration_fee;
+            session()->put('overpaid_amount', $overpaid);
+            return redirect()->route('payment.confirmation')->with('message', "You overpaid by $overpaid. Would you like to add it to your wallet balance?");
         }
+    
+        // Payment successful
+        return redirect()->route('home')->with('message', 'Payment successful!');
+    }
+
+    public function showPaymentConfirmation()
+    {
+        return view('payment_confirmation');
+    }
+
+    public function confirmPayment(Request $request)
+    {
+        $action = $request->input('action');
+        $overpaidAmount = session('overpaid_amount', 0);
+
+        if ($action === 'yes') {
+            // Simulate adding the overpaid amount to the user's wallet balance
+            // (This assumes a Wallet or User model update)
+            session()->forget('overpaid_amount');
+            return redirect()->route('home')->with('message', 'Overpaid amount added to your wallet balance.');
+        } elseif ($action === 'no') {
+            session()->forget('overpaid_amount');
+            return redirect()->route('payment')->with('message', 'Please re-enter the correct payment amount.');
+        }
+
+        return redirect()->route('home')->with('error', 'Invalid action.');
     }
 }
